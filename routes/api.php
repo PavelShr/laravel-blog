@@ -15,7 +15,6 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->prefix('admin')->group(function () {
     Route::get('logout', 'AuthController@logout');
-
     Route::get('profile', 'AdminController@getProfile');
 });
 
