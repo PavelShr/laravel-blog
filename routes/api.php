@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +17,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->prefix('admin')->group(function () {
     Route::get('logout', 'AuthController@logout');
     Route::get('profile', 'AdminController@getProfile');
+
+    // Resources
+    Route::resource('articles', 'ArticleController');
 });
 
 Route::prefix('auth')->group(function(){
