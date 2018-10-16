@@ -49,10 +49,8 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $article = Article::find($id);
-        if (!$article) {
-            return response('Not found', 404);
-        }
+        $article = Article::findOrFail($id);
+
         return $article;
     }
 
@@ -65,10 +63,7 @@ class ArticleController extends Controller
      */
     public function update(StoreArticleRequest $request, $id)
     {
-        $article = Article::find($id);
-        if (!$article) {
-            return response('Not found', 404);
-        }
+        $article = Article::findOrFail($id);
         $article->title = $request->post('title');
         $article->preview_image = $request->post('preview_image', '');
         $article->post_text = $request->post('post_text');
