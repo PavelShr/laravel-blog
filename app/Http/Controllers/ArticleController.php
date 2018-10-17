@@ -28,12 +28,12 @@ class ArticleController extends Controller
      */
     public function store(StoreArticleRequest $request)
     {
-        $article = new Article;
-        $article->title = $request->post('title');
-        $article->preview_image = $request->post('preview_image', '');
-        $article->post_text = $request->post('post_text');
-        $article->author_id = $request->user()->id;
-        $saved = $article->save();
+        $saved = Article::create([
+            'title' => $request->post('title'),
+            'preview_image' => $request->post('preview_image', ''),
+            'post_text' => $request->post('post_text'),
+            'author_id' => $request->user()->id,
+        ]);
         if (!$saved) {
             return response('Article not saved.', 500);
         }
@@ -63,11 +63,17 @@ class ArticleController extends Controller
      */
     public function update(StoreArticleRequest $request, $id)
     {
-        $article = Article::findOrFail($id);
-        $article->title = $request->post('title');
-        $article->preview_image = $request->post('preview_image', '');
-        $article->post_text = $request->post('post_text');
-        $article->author_id = $request->user()->id;
+        $updated = Article::findOrFail($id)
+                    ->update([
+                        'title' => $request->post('title'),
+                        'preview_image' => $request->post('preview_image', ''),
+                        'post_text' => $request->post('post_text'),
+                        'author_id' => $request->user()->id,
+                    ]);
+
+        if (!$updated) {
+            return response('Article not updated.', 500);
+        }
     }
 
     /**

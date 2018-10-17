@@ -12,7 +12,7 @@ class Article extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'preview_image', 'post_text',
+        'title', 'preview_image', 'post_text', 'author_id'
     ];
 
     public function comments()
