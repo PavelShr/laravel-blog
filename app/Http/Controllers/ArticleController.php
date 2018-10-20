@@ -33,6 +33,7 @@ class ArticleController extends Controller
             'preview_image' => $request->post('preview_image', ''),
             'post_text' => $request->post('post_text'),
             'author_id' => $request->user()->id,
+            'category_id' => $request->post('category', 0),
         ]);
         if (!$saved) {
             return response('Article not saved.', 500);
@@ -50,7 +51,7 @@ class ArticleController extends Controller
     public function show($id)
     {
         $article = Article::findOrFail($id);
-
+        $article['comments'] = $article->comments();
         return $article;
     }
 
@@ -69,6 +70,7 @@ class ArticleController extends Controller
                         'preview_image' => $request->post('preview_image', ''),
                         'post_text' => $request->post('post_text'),
                         'author_id' => $request->user()->id,
+                        'category_id' => $request->post('category', 0),
                     ]);
 
         if (!$updated) {
