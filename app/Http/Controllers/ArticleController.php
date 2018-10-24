@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreArticleRequest;
 use App\Models\Article;
+use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
@@ -33,13 +34,14 @@ class ArticleController extends Controller
             'preview_image' => $request->post('preview_image', ''),
             'post_text' => $request->post('post_text'),
             'author_id' => $request->user()->id,
-            'category_id' => $request->post('category', 0),
+            'category_id' => $request->post('category_id', 0),
         ]);
         if (!$saved) {
             return response('Article not saved.', 500);
         }
 
-        return 'OK';
+        unset($saved['post_text']);
+        return $saved;
     }
 
     /**
@@ -58,24 +60,22 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param StoreArticleRequest $request
+     * @param Request $request
      * @param  int $id
-     * @return void
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function update(StoreArticleRequest $request, $id)
+    public function update(Request $request, $id)
     {
+        $updatedData = $request->post();
+
         $updated = Article::findOrFail($id)
-                    ->update([
-                        'title' => $request->post('title'),
-                        'preview_image' => $request->post('preview_image', ''),
-                        'post_text' => $request->post('post_text'),
-                        'author_id' => $request->user()->id,
-                        'category_id' => $request->post('category', 0),
-                    ]);
+                    ->update($updatedData);
 
         if (!$updated) {
             return response('Article not updated.', 500);
         }
+
+        return response($updatedData, 200);
     }
 
     /**

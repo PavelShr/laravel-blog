@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ApiArticlesTest extends TestCase
 {
+    private const ARTICLES_TABLE = 'articles';
 
     private $headers = [
         'Content-Type' => 'applicatoin/json',
@@ -16,10 +17,10 @@ class ApiArticlesTest extends TestCase
         'Authorization' => null,
     ];
 
-    private $article = [
+    private static $article = [
         'title' => 'Test',
-        'post_text' => 'Lorme ipsum dolor',
-        'category' => '1',
+        'post_text' => 'Lorem ipsum dolor',
+        'category_id' => 1,
     ];
 
     protected function setUp()
@@ -38,15 +39,28 @@ class ApiArticlesTest extends TestCase
     public function testCreate()
     {
         $response = $this->withHeaders($this->headers)
-            ->postJson('/api/admin/articles', $this->article);
+            ->postJson('/api/admin/articles', self::$article);
 
-        $response->assertOk();
+        $response->assertStatus(201);
 
-        $this->assertDatabaseHas('articles', [
+        $this->assertDatabaseHas(static::ARTICLES_TABLE, [
             'title' => 'Test',
-            'post_text' => 'Lorme ipsum dolor',
+            'post_text' => 'Lorem ipsum dolor',
             'category_id' => '1',
         ]);
+
+        self::$article['id'] = $response->json('id');
+    }
+
+    /**
+     * One article
+     */
+    public function testOne()
+    {
+        $response = $this->withHeaders($this->headers)
+            ->get('/api/admin/articles/'.self::$article['id']);
+
+        $response->assertJsonFragment(self::$article);
 
         $response->assertStatus(200);
     }
@@ -54,10 +68,25 @@ class ApiArticlesTest extends TestCase
     /**
      * Update article
      */
-//    public function testUpdate()
-//    {
-//
-//    }
+    public function testUpdate()
+    {
+        $response = $this->withHeaders($this->headers)
+            ->patchJson('/api/admin/articles/'.self::$article['id'], [
+                'title' => 'Updated title',
+                'category_id' => '1',
+            ]);
+
+        $response->assertOk();
+        $response->assertJson([
+            'title' => 'Updated title',
+            'category_id' => '1',
+        ]);
+        $this->assertDatabaseHas(static::ARTICLES_TABLE, [
+            'title' => 'Updated title',
+            'post_text' => 'Lorem ipsum dolor',
+            'category_id' => '1',
+        ]);
+    }
 
     /**
      * List of all articles
@@ -72,22 +101,15 @@ class ApiArticlesTest extends TestCase
     }
 
     /**
-     * One article
+     * Delete article
      */
-    public function testOne()
+    public function testDelete()
     {
         $response = $this->withHeaders($this->headers)
-            ->get('/api/admin/articles/1');
+            ->delete('/api/admin/articles/'.self::$article['id']);
 
-        $response->assertStatus(200);
+        $response->assertOk();
+
+        $this->assertDatabaseMissing(self::ARTICLES_TABLE, self::$article);
     }
-
-//
-//    /**
-//     * Delete article
-//     */
-//    public function testDelete()
-//    {
-//
-//    }
 }
