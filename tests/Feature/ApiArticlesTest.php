@@ -9,29 +9,63 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ApiArticlesTest extends TestCase
 {
-//    private $user;
-    private $authToken;
+
+    private $headers = [
+        'Content-Type' => 'applicatoin/json',
+        'X-Requested-With' => 'XMLHttpRequest',
+        'Authorization' => null,
+    ];
+
+    private $article = [
+        'title' => 'Test',
+        'post_text' => 'Lorme ipsum dolor',
+        'category' => '1',
+    ];
 
     protected function setUp()
     {
         parent::setUp();
-        $user = User::find(1);
+        $user = factory(User::class)->create();
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
         $token->save();
-        $this->authToken = 'Bearer '.$tokenResult->accessToken;
+        $this->headers['Authorization'] = 'Bearer '.$tokenResult->accessToken;
     }
+
+    /**
+     * Create new article
+     */
+    public function testCreate()
+    {
+        $response = $this->withHeaders($this->headers)
+            ->postJson('/api/admin/articles', $this->article);
+
+        $response->assertOk();
+
+        $this->assertDatabaseHas('articles', [
+            'title' => 'Test',
+            'post_text' => 'Lorme ipsum dolor',
+            'category_id' => '1',
+        ]);
+
+        $response->assertStatus(200);
+    }
+
+    /**
+     * Update article
+     */
+//    public function testUpdate()
+//    {
+//
+//    }
+
     /**
      * List of all articles
      * @return void
      */
     public function testList()
     {
-        $response = $this->withHeaders([
-            'Content-Type' => 'applicatoin/json',
-            'X-Requested-With' => 'XMLHttpRequest',
-            'Authorization' => $this->authToken,
-            ])
+        $response = $this->withHeaders($this->headers)
             ->get('/api/admin/articles');
 
         $response->assertStatus(200);
@@ -42,29 +76,18 @@ class ApiArticlesTest extends TestCase
      */
     public function testOne()
     {
-        
+        $response = $this->withHeaders($this->headers)
+            ->get('/api/admin/articles/1');
+
+        $response->assertStatus(200);
     }
 
-    /**
-     * Create new article
-     */
-    public function testCreate()
-    {
-    }
-
-    /**
-     * Update article
-     */
-    public function testUpdate()
-    {
-        
-    }
-
-    /**
-     * Delete article
-     */
-    public function testDelete()
-    {
-        
-    }
+//
+//    /**
+//     * Delete article
+//     */
+//    public function testDelete()
+//    {
+//
+//    }
 }
