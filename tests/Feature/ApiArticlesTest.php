@@ -2,36 +2,15 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-
-class ApiArticlesTest extends TestCase
+class ApiArticlesTest extends ApiTestAbstract
 {
-    private const ARTICLES_TABLE = 'articles';
-
-    private $headers = [
-        'Content-Type' => 'applicatoin/json',
-        'X-Requested-With' => 'XMLHttpRequest',
-        'Authorization' => null,
-    ];
+    private const TABLE_NAME= 'articles';
 
     private static $article = [
         'title' => 'Test',
         'post_text' => 'Lorem ipsum dolor',
         'category_id' => 1,
     ];
-
-    protected function setUp()
-    {
-        parent::setUp();
-        $user = factory(User::class)->create();
-        $tokenResult = $user->createToken('Personal Access Token');
-        $token = $tokenResult->token;
-        $token->save();
-        $this->headers['Authorization'] = 'Bearer '.$tokenResult->accessToken;
-    }
 
     /**
      * Create new article
@@ -43,7 +22,7 @@ class ApiArticlesTest extends TestCase
 
         $response->assertStatus(201);
 
-        $this->assertDatabaseHas(static::ARTICLES_TABLE, [
+        $this->assertDatabaseHas(static::TABLE_NAME, [
             'title' => 'Test',
             'post_text' => 'Lorem ipsum dolor',
             'category_id' => '1',
@@ -81,7 +60,7 @@ class ApiArticlesTest extends TestCase
             'title' => 'Updated title',
             'category_id' => '1',
         ]);
-        $this->assertDatabaseHas(static::ARTICLES_TABLE, [
+        $this->assertDatabaseHas(static::TABLE_NAME, [
             'title' => 'Updated title',
             'post_text' => 'Lorem ipsum dolor',
             'category_id' => '1',
@@ -110,6 +89,6 @@ class ApiArticlesTest extends TestCase
 
         $response->assertOk();
 
-        $this->assertDatabaseMissing(self::ARTICLES_TABLE, self::$article);
+        $this->assertDatabaseMissing(self::TABLE_NAME, self::$article);
     }
 }
