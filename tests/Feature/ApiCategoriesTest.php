@@ -2,55 +2,48 @@
 
 namespace Tests\Feature;
 
-class ApiArticlesTest extends AbstractTest
+class ApiCategoriesTest extends AbstractTest
 {
-    private const ARTICLES_TABLE = 'articles';
+    private const CATEGORIES_TABLE = 'categories';
 
-    private static $article = [
-        'title' => 'Test',
-        'post_text' => 'Lorem ipsum dolor',
-        'category_id' => 1,
+    private static $category = [
+        'name' => 'Test category',
+        'description' => 'Test test test test test test test test test test test test test test test test test etc...',
     ];
-
     /**
-     * Create new article
+     * Create new category
      */
     public function testCreate()
     {
         $response = $this->withHeaders($this->headers)
-            ->postJson('/api/admin/articles', self::$article);
+            ->postJson('/api/admin/categories', self::$category);
 
         $response->assertStatus(201);
 
-        $this->assertDatabaseHas(static::ARTICLES_TABLE, [
-            'title' => 'Test',
-            'post_text' => 'Lorem ipsum dolor',
-            'category_id' => '1',
-        ]);
-
-        self::$article['id'] = $response->json('id');
+        $this->assertDatabaseHas(static::CATEGORIES_TABLE, self::$category);
+        self::$category['id'] = $response->json('id');
     }
 
     /**
-     * One article
+     * One category
      */
     public function testOne()
     {
         $response = $this->withHeaders($this->headers)
-            ->get('/api/admin/articles/'.self::$article['id']);
+            ->get('/api/admin/categories/'.self::$category['id']);
 
-        $response->assertJsonFragment(self::$article);
+        $response->assertJsonFragment(self::$category);
 
         $response->assertStatus(200);
     }
 
     /**
-     * Update article
+     * Update category
      */
     public function testUpdate()
     {
         $response = $this->withHeaders($this->headers)
-            ->patchJson('/api/admin/articles/'.self::$article['id'], [
+            ->patchJson('/api/admin/categories/'.self::$category['id'], [
                 'title' => 'Updated title',
                 'category_id' => '1',
             ]);
@@ -60,7 +53,7 @@ class ApiArticlesTest extends AbstractTest
             'title' => 'Updated title',
             'category_id' => '1',
         ]);
-        $this->assertDatabaseHas(static::ARTICLES_TABLE, [
+        $this->assertDatabaseHas(static::CATEGORIES_TABLE, [
             'title' => 'Updated title',
             'post_text' => 'Lorem ipsum dolor',
             'category_id' => '1',
@@ -68,27 +61,27 @@ class ApiArticlesTest extends AbstractTest
     }
 
     /**
-     * List of all articles
+     * List of all categories
      * @return void
      */
     public function testList()
     {
         $response = $this->withHeaders($this->headers)
-            ->get('/api/admin/articles');
+            ->get('/api/admin/categories');
 
         $response->assertStatus(200);
     }
 
     /**
-     * Delete article
+     * Delete category
      */
     public function testDelete()
     {
         $response = $this->withHeaders($this->headers)
-            ->delete('/api/admin/articles/'.self::$article['id']);
+            ->delete('/api/admin/categories/'.self::$category['id']);
 
         $response->assertOk();
 
-        $this->assertDatabaseMissing(self::ARTICLES_TABLE, self::$article);
+        $this->assertDatabaseMissing(self::CATEGORIES_TABLE, self::$category);
     }
 }
