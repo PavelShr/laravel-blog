@@ -37,7 +37,7 @@ class ArticleController extends Controller
             'category_id' => $request->post('category_id', 0),
         ]);
         if (!$saved) {
-            return response('Article not saved.', 500);
+            return response('Article not saved.', 400);
         }
 
         unset($saved['post_text']);
@@ -62,7 +62,7 @@ class ArticleController extends Controller
      *
      * @param Request $request
      * @param  int $id
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return array|string
      */
     public function update(Request $request, $id)
     {
@@ -72,10 +72,10 @@ class ArticleController extends Controller
                     ->update($updatedData);
 
         if (!$updated) {
-            return response('Article not updated.', 500);
+            return response('Article not updated.', 400);
         }
 
-        return response($updatedData, 200);
+        return $updatedData;
     }
 
     /**
@@ -88,7 +88,7 @@ class ArticleController extends Controller
     {
         $deleted = Article::destroy($id);
         if (!$deleted) {
-            return response('Error', 500);
+            return response('Error', 400);
         }
         return 'OK';
     }

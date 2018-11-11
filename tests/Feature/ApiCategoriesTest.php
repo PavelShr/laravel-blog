@@ -44,19 +44,15 @@ class ApiCategoriesTest extends AbstractTest
     {
         $response = $this->withHeaders($this->headers)
             ->patchJson('/api/admin/categories/'.self::$category['id'], [
-                'title' => 'Updated title',
-                'category_id' => '1',
+                'name' => 'Updated name',
             ]);
 
         $response->assertOk();
         $response->assertJson([
-            'title' => 'Updated title',
-            'category_id' => '1',
+            'name' => 'Updated name',
         ]);
         $this->assertDatabaseHas(static::CATEGORIES_TABLE, [
-            'title' => 'Updated title',
-            'post_text' => 'Lorem ipsum dolor',
-            'category_id' => '1',
+            'name' => 'Updated name',
         ]);
     }
 

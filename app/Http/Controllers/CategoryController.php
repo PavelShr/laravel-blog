@@ -23,18 +23,20 @@ class CategoryController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return string
      */
     public function store(Request $request)
     {
         $saved = Category::create([
-            // fill data
+            'name' => $request->post('name'),
+            'description' => $request->post('description', null),
+            'image' => $request->post('description', null),
         ]);
         if (!$saved) {
-            return response('Article not saved.', 500);
+            return response('Article not saved.', 400);
         }
 
-        return 'OK';
+        return $saved;
     }
 
     /**
@@ -45,7 +47,8 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $category = Category::findOrFail($id);
+        return $category;
     }
 
     /**
@@ -53,21 +56,34 @@ class CategoryController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array|string
      */
     public function update(Request $request, $id)
     {
-        //
+        $updatedData = $request->post();
+
+        $updated = Category::findOrFail($id)
+            ->update($updatedData);
+
+        if (!$updated) {
+            return response('Category not updated.', 400);
+        }
+
+        return $updatedData;
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return string
      */
     public function destroy($id)
     {
-        //
+        $deleted = Category::destroy($id);
+        if (!$deleted) {
+            return response('Error', 400);
+        }
+        return 'OK';
     }
 }

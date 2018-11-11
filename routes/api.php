@@ -19,8 +19,16 @@ Route::middleware('auth:api')->prefix('admin')->group(function () {
     Route::get('profile', 'AdminController@getProfile');
 
     // Resources
-    Route::resource('articles', 'ArticleController');
+    Route::apiResource('articles', 'ArticleController')
+        ->except(['show', 'index']);
+    Route::apiResource('categories', 'CategoryController')
+        ->except(['show', 'index']);
 });
+
+Route::apiResource('articles', 'ArticleController')
+    ->only(['show', 'index']);
+Route::apiResource('categories', 'ArticleController')
+    ->only(['show', 'index']);
 
 Route::prefix('auth')->group(function(){
     Route::post('login', 'AuthController@login');
