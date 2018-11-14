@@ -11,23 +11,16 @@ let mix = require('laravel-mix');
  |
  */
 
-
-// mix.webpackConfig({
-//     resolve: {
-//         alias: {
-//             "@components": path.resolve(
-//                 __dirname,
-//                 "resources/assets/js/components"
-//             ),
-//             "@pages": path.resolve(
-//                 __dirname,
-//                 "resources/assets/js/pages"
-//             )
-//         }
-//     }
-// });
-
-mix.react('resources/js/index.js', 'public/js')
+mix.webpackConfig({
+       resolve: {
+           alias: {
+               '@components': path.resolve(
+                   __dirname,
+                   "resources/assets/js/components",
+               ),
+           }
+       }
+   })
+   .react('resources/js/index.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css')
-   .sourceMaps()
    .browserSync('myblog.loc');
