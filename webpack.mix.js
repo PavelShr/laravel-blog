@@ -1,4 +1,4 @@
-let mix = require('laravel-mix');
+let mix = require('laravel-mix')
 
 /*
  |--------------------------------------------------------------------------
@@ -12,15 +12,18 @@ let mix = require('laravel-mix');
  */
 
 mix.webpackConfig({
-       resolve: {
-           alias: {
-               '@components': path.resolve(
-                   __dirname,
-                   "resources/assets/js/components",
-               ),
-           }
-       }
-   })
-   .react('resources/js/index.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css')
-   .browserSync('myblog.loc');
+  resolve: {
+    alias: {
+      '@components': path.resolve(
+        __dirname,
+        'resources/js/components',
+      ),
+    }
+  }
+})
+
+mix.react('resources/js/index.js', 'public/js')
+  .sass('resources/sass/app.scss', 'public/css')
+  .sourceMaps()
+  .browserSync('larablog.loc')
+
