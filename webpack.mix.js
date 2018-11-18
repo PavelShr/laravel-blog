@@ -1,5 +1,5 @@
-let mix = require('laravel-mix')
-
+let mix = require('laravel-mix');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -15,15 +15,24 @@ mix.webpackConfig({
   resolve: {
     alias: {
       '@components': path.resolve(
-        __dirname,
-        'resources/js/components',
+          __dirname,
+          'resources/js/admin/components',
       ),
-    }
-  }
-})
-
-mix.react('resources/js/index.js', 'public/js')
-  .sass('resources/sass/app.scss', 'public/css')
-  .sourceMaps()
-  .browserSync('larablog.loc')
+      '@reducers': path.resolve(
+          __dirname,
+          'resources/js/admin/store/reducers'
+      ),
+      '@styles': path.resolve(
+          __dirname,
+          'public/css'
+      ),
+      '@assets': path.resolve(
+          __dirname,
+          'resources/js/admin/assets'
+      )
+    },
+  },
+}).react('resources/js/admin/index.js', 'public/js/admin')
+    .sass('resources/sass/app.scss', 'public/css')
+    .browserSync('myblog.loc');
 

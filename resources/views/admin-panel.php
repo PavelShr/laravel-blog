@@ -7,10 +7,9 @@
 
   <title>💾</title>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
 </head>
 <body>
-<div id="index" style="width: 100%"><h1 style="margin: 0 auto; text-align: center;">Coming soon</h1></div>
+<div id="admin"></div>
+<script src="/js/admin/index.js"></script>
 </body>
 </html>
