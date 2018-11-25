@@ -26,10 +26,11 @@ class AuthController extends Controller
             'password' => 'required|string'
         ]);
         $credentials = request(['email', 'password']);
-        if(!Auth::attempt($credentials))
+        if (!Auth::attempt($credentials)) {
             return response()->json([
-                'message' => 'Unauthorized'
+                'message' => 'Incorrect email or password'
             ], 401);
+        }
         $user = $request->user();
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
@@ -69,7 +70,7 @@ class AuthController extends Controller
         $user->save();
         return response()->json([
             'message' => 'Successfully created user!'
-        ], 201);        
+        ], 201);
     }
 
     /**
@@ -86,7 +87,7 @@ class AuthController extends Controller
             'message' => 'Successfully logged out'
         ]);
     }
-  
+
     /**
      * Get the authenticated User
      *

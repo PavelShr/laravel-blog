@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import AdminDashboard from '@adminComponents/Admin';
+import AuthForm from '@authComponents/AuthForm';
+import Page from '@authComponents/Page';
 import {createMuiTheme} from '@material-ui/core/styles';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 
@@ -9,6 +10,16 @@ class App extends PureComponent {
   theme = createMuiTheme({
     typography: {
       useNextVariants: true,
+      fontFamily: [
+        '"Montserrat-Medium"',
+        '-apple-system',
+        'BlinkMacSystemFont',
+        'Roboto',
+        '"Helvetica Neue"',
+        'Arial',
+        'sans-serif',
+      ].join(','),
+      fontSize: 14,
     },
     palette: {
       primary: {
@@ -25,7 +36,7 @@ class App extends PureComponent {
     return (
         <MuiThemeProvider theme={this.theme}>
           <CssBaseline/>
-          <AdminDashboard/>
+          <AuthForm/>
         </MuiThemeProvider>
     );
   }

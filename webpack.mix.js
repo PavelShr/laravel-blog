@@ -14,25 +14,52 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 mix.webpackConfig({
   resolve: {
     alias: {
-      '@components': path.resolve(
+      '@adminComponents': path.resolve(
           __dirname,
           'resources/js/admin/components',
       ),
-      '@reducers': path.resolve(
+      '@adminReducers': path.resolve(
           __dirname,
           'resources/js/admin/store/reducers'
       ),
-      '@styles': path.resolve(
+      '@adminStyles': path.resolve(
           __dirname,
-          'public/css'
+          'public/admin/css'
       ),
-      '@assets': path.resolve(
+      '@adminAssets': path.resolve(
           __dirname,
           'resources/js/admin/assets'
-      )
+      ),
+
+      '@authComponents': path.resolve(
+          __dirname,
+          'resources/js/auth/components',
+      ),
+      '@authReducers': path.resolve(
+          __dirname,
+          'resources/js/auth/store/reducers'
+      ),
+      '@authStyles': path.resolve(
+          __dirname,
+          'public/css/auth'
+      ),
+      '@authAssets': path.resolve(
+          __dirname,
+          'resources/js/auth/assets'
+      ),
+      '@commonComponents': path.resolve(
+          __dirname,
+          'resources/js/common'
+      ),
+
+      '@helpers': path.resolve(
+          __dirname,
+          'resources/js/helpers'
+      ),
     },
   },
-}).react('resources/js/admin/index.js', 'public/js/admin')
-    .sass('resources/sass/app.scss', 'public/css')
-    .browserSync('myblog.loc');
+}).sass('resources/sass/auth.scss', 'public/css/auth')
+  .react('resources/js/admin/index.js', 'public/js/admin')
+  .react('resources/js/auth/index.js', 'public/js/auth')
+  .browserSync('myblog.loc');
 

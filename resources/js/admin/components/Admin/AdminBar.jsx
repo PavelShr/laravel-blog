@@ -13,7 +13,7 @@ import { BrowserRouter as Router, Link } from "react-router-dom";
 // styles
 import classNames from 'classnames';
 import withStyles from '@material-ui/core/es/styles/withStyles';
-import styles from '@assets/styles/components/adminBarStyles.js';
+import styles from '@adminAssets/styles/components/adminBarStyles.js';
 // icons
 import MenuIcon from '@material-ui/icons/MenuOutlined';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeftOutlined';

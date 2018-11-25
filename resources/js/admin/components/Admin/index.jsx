@@ -1,5 +1,5 @@
 import React from 'react'
-import AdminBar from '@components/Admin/AdminBar';
+import AdminBar from '@adminComponents/Admin/AdminBar';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 const Index = () => <h2>Home</h2>;
