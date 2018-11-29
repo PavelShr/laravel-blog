@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import {Link} from 'react-router-dom';
 import FormError from '@commonComponents/FormError';
 import axios from 'axios';
+import { JWT_KEY } from '@commonComponents/constants';
 
 import Validator from '@helpers/Validator';
 
@@ -44,11 +45,12 @@ export default class SignIn extends PureComponent {
           {email: this.state.email, password: this.state.password}).
           then((response) => {
             this.setState({authFailed: false});
-            console.log(response);
+            localStorage.setItem(JWT_KEY, `${response.data.token_type} ${response.data.access_token}`);
+            window.location.replace("/admin-panel");
           }).
           catch((error) => {
-            let response = error.response;
-            this.setState({authFailed: true, errorMessage: response.data.message});
+            let errorResponse = error.response;
+            this.setState({authFailed: true, errorMessage: errorResponse.data.message});
           });
     }
   }
