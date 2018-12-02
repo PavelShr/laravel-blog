@@ -1,0 +1,68 @@
+@font-face {
+  font-family: 'Montserrat-Medium';
+  src: url(/fonts/Montserrat-Medium.ttf?a98626e1aef6ceba5dfc1ee7112e235a);
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Montserrat-SemiBold';
+  src: url(/fonts/Montserrat-SemiBold.ttf?c88cecbffad6d8e731fd95de49561ebd);
+  font-weight: normal;
+  font-style: normal;
+}
+
+body #auth {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: url(/images/bg.jpg?4868373d7b69f62e573dd9426b3e679c) center no-repeat;
+  background-size: cover;
+}
+
+body #auth .auth-block--wrapper {
+  text-align: center;
+  padding: 0 15%;
+  height: 100vh;
+}
+
+body #auth .auth-block--wrapper .auth-block {
+  width: 100%;
+  max-height: 500px;
+  padding: 40px;
+  background-color: rgba(255, 255, 255, 0.96);
+}
+
+body #auth .auth-block--wrapper .auth-block .toggle-form > a {
+  color: inherit;
+  text-decoration: none;
+}
+
+body #auth .auth-block--wrapper .auth-block .toggle-form > a:hover {
+  color: #3f946e;
+}
+
+body #auth .auth-block--wrapper .auth-block .delimiter {
+  margin: 10px 0;
+}
+
+body #auth .auth-block--wrapper .auth-block .delimiter > span {
+  font-size: 12px;
+}
+
+body #auth .full-width {
+  width: 100%;
+}
+
+body #auth .submit-button {
+  margin-top: 20px;
+  font-family: "Montserrat-SemiBold", sans-serif;
+}
+
+body #auth .form-error {
+  display: inline-block;
+  color: #c40507;
+  font-size: 14px;
+  height: 20px;
+}
+

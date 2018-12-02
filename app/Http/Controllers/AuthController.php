@@ -32,6 +32,7 @@ class AuthController extends Controller
             ], 401);
         }
         $user = $request->user();
+//        Auth::login($user);
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
         if ($request->remember_me) {
@@ -39,6 +40,7 @@ class AuthController extends Controller
         }
         $token->save();
 
+//        $cookie = \cookie('_auth', , 60*24*30*365);
         return response()->json([
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
@@ -78,7 +80,7 @@ class AuthController extends Controller
      *
      * @param  mixed $request
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function logout(Request $request)
     {
@@ -91,7 +93,8 @@ class AuthController extends Controller
     /**
      * Get the authenticated User
      *
-     * @return [json] user object
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse [json] user object
      */
     public function user(Request $request)
     {

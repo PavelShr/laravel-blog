@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,7 +16,7 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::middleware('auth:api')->group(function() {
+Route::middleware('auth:web')->group(function() {
     Route::get('/admin-panel', function () {
         return view('admin-panel');
     });
