@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 
@@ -33,4 +32,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Article::class);
     }
+
+    // TODO implement ether factory method here or use own models that will to use eloquent... I really don't know
 }
