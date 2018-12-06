@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:api')->prefix('admin')->group(function () {
-    Route::get('logout', 'AuthController@logout');
+    Route::get('logout', 'LoginController@logout');
     Route::get('profile', 'AdminController@getProfile');
 
     // Resources
@@ -31,6 +31,6 @@ Route::apiResource('categories', 'ArticleController')
     ->only(['show', 'index']);
 
 Route::prefix('auth')->group(function(){
-    Route::post('login', 'AuthController@login');
-    Route::post('signup', 'AuthController@signup');
+    Route::post('login', 'LoginController@index');
+    Route::post('signup', 'SignupController@index');
 });

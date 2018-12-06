@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers\auth;
 
+use App\Models\UserModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 
 class RegisterController extends Controller
 {
     /**
-     * signup
+     * User's registration
      *
      * @param  mixed $request
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function index(Request $request)
     {
@@ -23,13 +24,11 @@ class RegisterController extends Controller
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|confirmed'
         ]);
-        User::
-        $user = new User([
+        UserModel::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password)
         ]);
-        $user->save();
         return response()->json([
             'message' => 'Successfully created user!'
         ], 201);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -22,19 +23,13 @@ class LoginController extends Controller
                 'message' => 'Incorrect email or password'
             ], 401);
         }
-        $user = $request->user();
-        $tokenResult = $user->createToken('Personal Access Token');
-        $token = $tokenResult->token;
-        if ($request->get('remember_me')) {
-            $token->expires_at = Carbon::now()->addWeeks(1);
-        }
-        $token->save();
-
+        $user = $request->user;
+        $token = $user->createToken();
         return response()->json([
-            'access_token' => $tokenResult->accessToken,
+            'access_token' => $token->accessToken,
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse(
-                $tokenResult->token->expires_at
+                $token->token->expires_at
             )->toDateTimeString()
         ]);
     }
