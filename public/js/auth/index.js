@@ -46921,6 +46921,7 @@ var SignIn = function (_PureComponent) {
         __WEBPACK_IMPORTED_MODULE_8_axios___default.a.post(_this.LOGIN_URL, { email: _this.state.email, password: _this.state.password }).then(function (response) {
           _this.setState({ authFailed: false });
           localStorage.setItem(__WEBPACK_IMPORTED_MODULE_9__commonComponents_constants__["a" /* JWT_KEY */], response.data.token_type + ' ' + response.data.access_token);
+          window.location = '/admin-panel';
         }).catch(function (error) {
           var errorResponse = error.response;
           _this.setState({ authFailed: true, errorMessage: errorResponse.data.message });

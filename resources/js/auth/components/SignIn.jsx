@@ -46,7 +46,7 @@ export default class SignIn extends PureComponent {
           then((response) => {
             this.setState({authFailed: false});
             localStorage.setItem(JWT_KEY, `${response.data.token_type} ${response.data.access_token}`);
-
+            window.location = '/admin-panel';
           }).
           catch((error) => {
             let errorResponse = error.response;
